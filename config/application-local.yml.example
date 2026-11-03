@@ -1,0 +1,23 @@
+# Copy this file to  application-local.yml  (same folder) and fill it in. application-local.yml is never committed.
+# Only write what you want to change; everything else comes from application.yml.
+
+llm:
+  provider: openai
+
+embedder: openai            # or leave it as "hash" (offline) if you only want the chat model to be real
+
+openai:
+  api_key: sk-...                       # your key. For a local server that needs none, any text works (for example "local")
+  # base_url: http://localhost:11434/v1 # only for a local OpenAI-compatible server (Ollama / LM Studio); blank = OpenAI cloud
+  model_l1: your-l1-model-name          # pin a model you have access to
+  model_l2: your-l2-model-name
+  embedding_model: your-embedding-model-name
+
+langsmith:
+  tracing: true                         # (or "enabled: true" - same thing)
+  api_key: lsv2_...                     # from smith.langchain.com -> Settings -> API keys
+  agent_id: sanction-ai-agent           # the project name; with agent_environment: local it becomes sanction-ai-agent-local
+  agent_environment: local              # optional
+  endpoint: https://api.smith.langchain.com   # your region: apac -> https://apac.api.smith.langchain.com, eu -> https://eu.api.smith.langchain.com
+  # hide_inputs: true                   # switch these on if you ever trace real payment text
+  # hide_outputs: true

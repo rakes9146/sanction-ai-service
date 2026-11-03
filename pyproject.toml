@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sanction-ai-service"
+version = "1.0.0"
+description = "AI L1 + L2 review of held payments for the sanctions-screening POC (LangGraph, code verifies the AI)"
+requires-python = ">=3.12"
+dependencies = [
+  "langgraph>=1.0",          # the graph that runs the steps in order
+  "openai>=2.0",             # the LLM + embeddings client
+  "qdrant-client>=1.12",     # the vector store for the policy clauses (embedded mode, no server needed)
+  "confluent-kafka>=2.5",    # Kafka (same client as the payment mock)
+  "pymongo>=4.8",            # MongoDB (plain, blocking: no asyncio)
+  "pydantic>=2.8",           # data models + validation of the AI's JSON answers
+  "pydantic-settings>=2.4",  # settings from environment variables / .env
+  "fastapi>=0.115",          # only a /health endpoint
+  "uvicorn>=0.30",
+  "structlog>=24.4",         # JSON logs
+  "tenacity>=9",             # retries
+  "rapidfuzz>=3.9",          # Jaro-Winkler for name-part re-scoring (RC-06)
+  "pyyaml>=6",               # config/*.yml
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "httpx>=0.27",             # used by FastAPI's test client
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: needs Docker (Kafka + MongoDB); run with  uv run pytest -m integration"]
+addopts = "-m 'not integration'"

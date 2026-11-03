@@ -1,0 +1,29 @@
+flowchart TD
+    alert_in(["Alert arrives<br/>ai.review.request.v1 from the orchestrator"])
+    prepare["<b>1 prepare</b> - CODE<br/>kill switch, collect the text,<br/>PA-02: compare DOB / nationality / city / ids"]
+    plan_l1["<b>2 plan_l1</b> - CODE<br/>switch on only the L1 questions<br/>that this kind of hit needs"]
+    l1_call["<b>3 l1_call</b> - AI #1<br/>read and label (structured JSON,<br/>every answer carries a quote)"]
+    verify_l1["<b>4 verify_l1</b> - CODE<br/>RC-02: is each quote really in the payment?<br/>if not, the answer is dropped"]
+    rescreen["<b>5 rescreen</b> - CODE over Kafka<br/>names / places / ids the AI found are sent to the<br/>screening service to be matched (RC-03..05)"]
+    score["<b>6 score</b> - CODE<br/>hit score = similarity x corroboration<br/>alert score = highest hit; band; floors"]
+    l2_retrieve["<b>7 l2_retrieve</b> - CODE + RAG<br/>pick 5 policy clauses:<br/>pinned, then tagged, then semantic"]
+    l2_call["<b>8 l2_call</b> - AI #2<br/>cite clause ids, recommend,<br/>draft the RFI text"]
+    final_gate["<b>9 final_gate</b> - CODE<br/>checks the AI output; the ONLY place that<br/>can say AUTO_CLEARED, and only if every condition holds"]
+    emit["<b>10 emit</b> - CODE<br/>build the ai.review.result payload"]
+    result_out(["ai.review.result.v1<br/>back to the orchestrator"])
+    FAIL{{"any step fails: failed = True,<br/>jump to emit (status FAILED, route L3)"}}
+
+    alert_in --> prepare --> plan_l1 --> l1_call --> verify_l1 --> rescreen --> score
+    score -->|"AUTO_CLEAR band and no safety floor<br/>(AI L2 is skipped)"| emit
+    score -->|"anything else"| l2_retrieve --> l2_call --> final_gate --> emit
+    emit --> result_out
+    FAIL -.-> emit
+
+    classDef ai fill:#ffe0b2,stroke:#e65100,color:#000
+    classDef code fill:#e3f2fd,stroke:#1565c0,color:#000
+    classDef rag fill:#e8f5e9,stroke:#2e7d32,color:#000
+    classDef plain fill:#fff,stroke:#999,color:#000
+    class l1_call,l2_call ai
+    class prepare,plan_l1,verify_l1,rescreen,score,final_gate,emit code
+    class l2_retrieve rag
+    class alert_in,result_out,FAIL plain

@@ -1,0 +1,27 @@
+# SAFETY FLOORS (shared-contracts section 8). A floor only RAISES the minimum review level, nothing lowers it.
+# The orchestrator owns the master copy (floor-rules.yml); this file lists the floors this service can raise or must understand.
+levels:                  # order matters: later = higher
+  - AUTO_CLEAR
+  - L2
+  - L3
+
+floors:
+  G-01: L3    # exact listed name / sanctioned country / any HARD hit            (raised by sanction-check, seen in the request)
+  G-02: L3    # banned BIC / restricted IFSC
+  G-03: L2    # location word in text
+  G-04: L2    # concealment phrase / stripping, or AI L1-07 is not NONE
+  G-05: L3    # injection text or AI L1-09 manipulation = true
+  G-06: L2    # AI output invalid, or a cited clause is not in the policy
+  G-07: L3    # AI unavailable or the re-screen could not be verified
+  G-08: L3    # AI kill switch
+  G-09: L3    # AI says a location word is a sanctioned place (or its labels conflict)
+  G-11: L2    # name in text, vessel/port marker, goods keyword, dual-use goods (L1-06)
+
+# What each AI finding turns into (RC-08)
+from_ai:
+  concealment_not_none: G-04
+  manipulation: G-05
+  dual_use: G-11
+  sanctioned_place: G-09
+  output_invalid: G-06
+  rescreen_failed: G-07

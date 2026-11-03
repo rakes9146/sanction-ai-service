@@ -1,0 +1,132 @@
+{
+  "event_id": "01a14afe-c002-79e1-8ebc-bbbbbbbb0001",
+  "event_type": "AiReviewCompleted",
+  "event_version": 1,
+  "correlation_id": "pay_01K7RQ8X2M00000000003NSH4D",
+  "causation_id": null,
+  "payment_id": "pay_01K7RQ8X2M00000000003NSH4D",
+  "screening_request_id": "req_01K7RQ8Y6C5E7G9J3L4M6P8R1T",
+  "producer": "sanction-ai@1.0.0",
+  "timestamp": "2026-10-17T17:53:01.000Z",
+  "schema_version": "1.0.0",
+  "trace_context": {
+    "traceparent": "00-394bc4ee3c7ab02d14bc67fd0d2b0973-14f294afe8031ca1-01"
+  },
+  "payload": {
+    "status": "COMPLETED",
+    "ai_level_reached": "L2",
+    "proposed_route": "L3",
+    "alert_score": 0.3,
+    "raw_band": "AUTO_CLEAR",
+    "effective_band": "L2",
+    "floors_applied": [
+      "G-03"
+    ],
+    "security_event": false,
+    "qa_sample": false,
+    "attribute_table": [],
+    "l1": {
+      "checks_run": [
+        "L1-01",
+        "L1-05",
+        "L1-09"
+      ],
+      "checks": {
+        "L1-01": {
+          "token": "TEHRAN",
+          "label": "STREET_NAME",
+          "evidence": "VIA TEHRAN STREET HUB DUBAI",
+          "evidence_verified": true
+        },
+        "L1-05": {
+          "place": "TEHRAN STREET, DUBAI",
+          "role": "ROUTING_PORT",
+          "country": "AE",
+          "sanctioned_region": false,
+          "evidence": "VIA TEHRAN STREET HUB DUBAI",
+          "evidence_verified": true
+        },
+        "L1-09": {
+          "manipulation": false
+        }
+      },
+      "code_rechecks": {
+        "RC-01": "PASS",
+        "RC-02": "PASS",
+        "RC-04": "place re-screened: no sanctioned country",
+        "RC-07": "location score 0.30",
+        "RC-08": "no risk flags",
+        "RC-09": "raw band AUTO_CLEAR; G-03 floors it to L2"
+      },
+      "rescreen_results": [
+        {
+          "item": "TEHRAN STREET, DUBAI",
+          "result": "no sanctioned_region; S2-R04 gazetteer hit remains (TEHRAN)"
+        }
+      ]
+    },
+    "l2": {
+      "checks_run": [
+        "L2-01",
+        "L2-05",
+        "L2-06"
+      ],
+      "L2-01": {
+        "cited_clauses": [
+          "SCP-6.2",
+          "SCP-6.3"
+        ],
+        "retrieved_clause_ids": [
+          "SCP-6.2",
+          "SCP-6.3",
+          "SCP-2.2",
+          "SCP-8.1",
+          "SCP-8.2"
+        ]
+      },
+      "L2-05": {
+        "recommendation": "RECOMMEND_RFI",
+        "rationale": "Field 70 reads \"VIA TEHRAN STREET HUB DUBAI\". Tehran Street is a Dubai street, not Iran, so a sanctions link is not shown. The goods route for container 4021 is still unknown, so ask for transport documents before release.",
+        "quotes": [
+          "VIA TEHRAN STREET HUB DUBAI"
+        ]
+      },
+      "L2-06": {
+        "draft_rfi": "Please provide the commercial invoice and bill of lading for container 4021."
+      },
+      "gate": {
+        "schema_valid": true,
+        "clauses_exist": true,
+        "quotes_verified": true,
+        "rfi_text_clean": true,
+        "clear_allowed": false,
+        "clear_blocked_by": [
+          "G-03 floor"
+        ]
+      }
+    },
+    "case_pack": {
+      "summary": "Tehran Street in Dubai appears as a routing hub in Field 70. No listed party, BIC or country.",
+      "recommendation": "RECOMMEND_RFI",
+      "cited_clauses": [
+        {
+          "clause_id": "SCP-6.2",
+          "text": "(synthetic) A place word that is part of a street name is not by itself a sanctioned location."
+        },
+        {
+          "clause_id": "SCP-6.3",
+          "text": "(synthetic) Where the goods route is unclear, request transport documents."
+        }
+      ],
+      "draft_rfi": "Please provide the commercial invoice and bill of lading for container 4021.",
+      "draft_notice": null
+    },
+    "versions": {
+      "model": "<pinned model id from env>",
+      "prompt": "l1-read-v1 / l2-reason-v1",
+      "watchlist": "POC-WL-2026-10-01.1",
+      "policy": "POC-POLICY-2026-10-01"
+    },
+    "errors": []
+  }
+}

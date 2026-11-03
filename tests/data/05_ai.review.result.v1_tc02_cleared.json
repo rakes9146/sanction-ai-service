@@ -1,0 +1,74 @@
+{
+  "event_id": "01a14afe-c001-79e1-8ebc-aaaaaaaa0005",
+  "event_type": "AiReviewCompleted",
+  "event_version": 1,
+  "correlation_id": "pay_01K7RQ8X2M00000000003NR2QK",
+  "causation_id": "01a14afe-c001-79e1-8ebc-aaaaaaaa0004",
+  "payment_id": "pay_01K7RQ8X2M00000000003NR2QK",
+  "screening_request_id": "req_01K7RQ8Y4A3C5D7F1H2J4K6M8N",
+  "producer": "sanction-ai@1.0.0",
+  "timestamp": "2026-10-17T17:52:53.100Z",
+  "schema_version": "1.0.0",
+  "trace_context": {
+    "traceparent": "00-394bc4ee3c7ab02d14bc67fd0d2b0973-14f294afe8031ca1-01"
+  },
+  "payload": {
+    "status": "COMPLETED",
+    "ai_level_reached": "L1",
+    "proposed_route": "AUTO_CLEARED",
+    "alert_score": 0.15,
+    "raw_band": "AUTO_CLEAR",
+    "effective_band": "AUTO_CLEAR",
+    "floors_applied": [],
+    "security_event": false,
+    "qa_sample": false,
+    "attribute_table": [
+      {
+        "hit_id": "h1",
+        "dob": "MISMATCH",
+        "nationality": "MISMATCH",
+        "city": "MISMATCH",
+        "identifiers": "UNKNOWN"
+      }
+    ],
+    "l1": {
+      "checks_run": [
+        "L1-02",
+        "L1-03",
+        "L1-09"
+      ],
+      "checks": {
+        "L1-02": {
+          "label": "INDIVIDUAL",
+          "evidence": "Mohd Abdul Hafiz",
+          "evidence_verified": true
+        },
+        "L1-03": {
+          "given": "MOHD ABDUL",
+          "family": "HAFIZ",
+          "evidence": "Mohd Abdul Hafiz",
+          "evidence_verified": true
+        },
+        "L1-09": {
+          "manipulation": false
+        }
+      },
+      "code_rechecks": {
+        "RC-01": "PASS",
+        "RC-02": "PASS",
+        "RC-06": "similarity unchanged 1.00",
+        "RC-09": "score 1.00 x 0.15 = 0.15 -> AUTO_CLEAR"
+      },
+      "rescreen_results": []
+    },
+    "l2": null,
+    "case_pack": null,
+    "versions": {
+      "model": "<pinned model id from env>",
+      "prompt": "l1-read-v1",
+      "watchlist": "POC-WL-2026-10-01.1",
+      "policy": null
+    },
+    "errors": []
+  }
+}

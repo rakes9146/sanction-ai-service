@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.idea
+tests
+docs
+docker
+data/qdrant
+# the property files may hold keys: they are supplied at run time (compose mounts ./config), never baked into the image
+config/application.yml
+config/application-local.yml

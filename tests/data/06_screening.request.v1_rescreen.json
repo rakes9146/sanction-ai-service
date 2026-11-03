@@ -1,0 +1,39 @@
+{
+  "event_id": "01a14afe-c003-79e1-8ebc-cccccccc0001",
+  "event_type": "ScreeningRequested",
+  "event_version": 1,
+  "correlation_id": "pay_01K7RQ8X2M00000000009RESCRN",
+  "causation_id": null,
+  "payment_id": "pay_01K7RQ8X2M00000000009RESCRN",
+  "screening_request_id": "req_01K7RQ8Y5B4D6F8H2J3K5M7N9P",
+  "producer": "sanction-ai@1.0.0",
+  "timestamp": "2026-10-17T17:52:50.100Z",
+  "schema_version": "1.0.0",
+  "trace_context": {
+    "traceparent": "00-394bc4ee3c7ab02d14bc67fd0d2b0973-14f294afe8031ca1-01"
+  },
+  "payload": {
+    "request_kind": "RESCREEN",
+    "reply_topic": "screening.rescreen.result.v1",
+    "parsed_message": null,
+    "timeout_ms": 500,
+    "items": [
+      {
+        "item_id": "r1",
+        "kind": "NAME",
+        "value": "Rostek Holdings",
+        "source_check": "L1-04",
+        "source_field_id": "f9",
+        "evidence": "on behalf of Rostek Holdings"
+      },
+      {
+        "item_id": "r2",
+        "kind": "PLACE",
+        "value": "Yalta",
+        "source_check": "L1-05",
+        "source_field_id": "f9",
+        "evidence": "ul. Lenina, Yalta"
+      }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	prepare(prepare)
+	plan_l1(plan_l1)
+	l1_call(l1_call)
+	verify_l1(verify_l1)
+	rescreen(rescreen)
+	score(score)
+	l2_retrieve(l2_retrieve)
+	l2_call(l2_call)
+	final_gate(final_gate)
+	emit(emit)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> prepare;
+	final_gate -. &nbsp;continue&nbsp; .-> emit;
+	l1_call -. &nbsp;failed&nbsp; .-> emit;
+	l1_call -. &nbsp;continue&nbsp; .-> verify_l1;
+	l2_call -. &nbsp;failed&nbsp; .-> emit;
+	l2_call -. &nbsp;continue&nbsp; .-> final_gate;
+	l2_retrieve -. &nbsp;failed&nbsp; .-> emit;
+	l2_retrieve -. &nbsp;continue&nbsp; .-> l2_call;
+	plan_l1 -. &nbsp;failed&nbsp; .-> emit;
+	plan_l1 -. &nbsp;continue&nbsp; .-> l1_call;
+	prepare -. &nbsp;failed&nbsp; .-> emit;
+	prepare -. &nbsp;continue&nbsp; .-> plan_l1;
+	rescreen -. &nbsp;failed&nbsp; .-> emit;
+	rescreen -. &nbsp;continue&nbsp; .-> score;
+	score -. &nbsp;clear&nbsp; .-> emit;
+	score -. &nbsp;needs_l2&nbsp; .-> l2_retrieve;
+	verify_l1 -. &nbsp;failed&nbsp; .-> emit;
+	verify_l1 -. &nbsp;continue&nbsp; .-> rescreen;
+	emit --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

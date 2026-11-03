@@ -1,0 +1,3 @@
+# QA SAMPLING (floor G-10, REVIEW-7). When the AI clears a payment, a fixed share of them is ALSO queued for a human to check afterwards.
+# The payment is still released. The choice is made from the payment id, so replaying the same payment gives the same answer.
+percent: 10

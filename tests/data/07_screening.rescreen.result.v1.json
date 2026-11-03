@@ -1,0 +1,52 @@
+{
+  "event_id": "01a14afe-c003-79e1-8ebc-cccccccc0002",
+  "event_type": "ScreeningCompleted",
+  "event_version": 1,
+  "correlation_id": "pay_01K7RQ8X2M00000000009RESCRN",
+  "causation_id": "01a14afe-c003-79e1-8ebc-cccccccc0001",
+  "payment_id": "pay_01K7RQ8X2M00000000009RESCRN",
+  "screening_request_id": "req_01K7RQ8Y5B4D6F8H2J3K5M7N9P",
+  "producer": "sanction-check@1.0.0",
+  "timestamp": "2026-10-17T17:52:50.100Z",
+  "schema_version": "1.0.0",
+  "trace_context": {
+    "traceparent": "00-394bc4ee3c7ab02d14bc67fd0d2b0973-14f294afe8031ca1-01"
+  },
+  "payload": {
+    "request_kind": "RESCREEN",
+    "status": "COMPLETED",
+    "watchlist_version": "POC-WL-2026-10-01.1",
+    "duration_ms": 14,
+    "item_results": [
+      {
+        "item_id": "r1",
+        "hits": [
+          {
+            "hit_id": "rh1",
+            "rule_id": "S2-R01",
+            "severity": "SOFT",
+            "similarity": 0.91,
+            "watchlist_entry_id": "POC-ENT-004",
+            "watchlist_version": "POC-WL-2026-10-01.1"
+          }
+        ]
+      },
+      {
+        "item_id": "r2",
+        "hits": [
+          {
+            "hit_id": "rh2",
+            "rule_id": "S2-R04",
+            "severity": "SOFT",
+            "watchlist_entry_id": "GAZ-REGION-CRIMEA",
+            "watchlist_version": "POC-WL-2026-10-01.1"
+          }
+        ]
+      }
+    ],
+    "floor_hints": [
+      "G-03"
+    ],
+    "errors": []
+  }
+}

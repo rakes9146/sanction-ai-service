@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/qdrant/
+.pytest_cache/
+*.egg-info/
+
+# private overrides (keys) - never commit
+config/application-local.yml
+
+# Office lock files
+~$*

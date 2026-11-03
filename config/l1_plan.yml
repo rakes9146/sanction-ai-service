@@ -1,0 +1,22 @@
+# PLAN L1: which AI L1 questions are switched on for which kind of hit (catalogue section 5, "trigger matrix").
+# Why: the AI is slow and costs money. It only answers the questions that can add something to the hits we actually have.
+# A rule that is not listed here (or has an empty list) switches nothing on: code alone scores it.
+hit_rules:
+  S2-R01: [L1-02, L1-03, L1-08]   # fuzzy name        -> what kind of party is it, what are the name parts, ids hidden in text
+  S2-R02: [L1-02, L1-03, L1-08]   # phonetic name
+  S2-R03: [L1-02, L1-03, L1-08]   # transliterated name
+  S1-R01: [L1-02, L1-03, L1-08]   # exact listed name (evidence only: it can never be cleared, floor G-01)
+  S1-R06: []                      # listed identifier: code score 1.0
+  S1-R02: []                      # banned BIC:       code score 1.0
+  S1-R03: []                      # restricted IFSC:  code score 1.0
+  S1-R07: []                      # account country:  code score 1.0
+  S1-R04: [L1-05]                 # sanctioned country (only useful if the country also appears in the text)
+  S2-R04: [L1-01, L1-05]          # location word     -> street? product? or a real place? is it a sanctioned region?
+  S2-R05: [L1-04, L1-07]          # name inside text  -> who is paying on behalf of whom?
+  S2-R07: [L1-01, L1-02, L1-04]   # vessel / port marker
+  S2-R08: [L1-06]                 # goods keyword     -> dual-use?
+  S2-R09: [L1-07]                 # concealment phrase
+  S1-R05: [L1-07]                 # stripped / filler fields
+
+# Switched on for EVERY alert that has free text (runs after the PA-03 regex as a second, independent injection detector).
+always_if_free_text: [L1-09]

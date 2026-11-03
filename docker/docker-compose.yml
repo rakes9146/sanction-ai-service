@@ -1,0 +1,28 @@
+# Starts the AI service. Kafka + Mongo come from service-skills/_shared/docker-compose.infra.yml:
+#   docker compose -f ../service-skills/_shared/docker-compose.infra.yml -f docker/docker-compose.yml up --build
+# The default LLM_PROVIDER=fake needs no key (rule-based DEMO, not AI). For the real model put these in a .env file next to this one:
+#   LLM_PROVIDER=openai  EMBEDDER=openai  OPENAI_API_KEY=...  OPENAI_MODEL_L1=...  OPENAI_MODEL_L2=...  OPENAI_EMBEDDING_MODEL=...
+services:
+  sanction-ai-service:
+    build: ..
+    container_name: sanction-ai-service
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      mongo:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      MONGO_URI: mongodb://mongo:27017/?replicaSet=rs0
+      MONGO_DB: ai_db
+      # llm / openai / langsmith settings come from config/application.yml (+ application-local.yml), mounted below
+      SERVER_PORT: 8083
+    ports: ["8083:8083"]
+    volumes:
+      - ai-qdrant:/app/data
+      - ../config:/app/config:ro
+volumes:
+  ai-qdrant: {}
